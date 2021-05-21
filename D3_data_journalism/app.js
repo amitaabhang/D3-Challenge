@@ -31,4 +31,18 @@ d3.csv("data.csv").then(function(stateData) {
 
   // Print the tvData
   console.log(stateData);
+
+  stateData.forEach(function(data) {
+    data.id = +data.id;
+  });
+
+  stateData.forEach(function(data) {
+    data.poverty = +data.poverty;
+  });
+
+  stateData.forEach(function(data) {
+    data.povertyMoe = +data.povertyMoe;
+  });
+
+
 });
