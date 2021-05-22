@@ -28,21 +28,60 @@ var chartGroup = svg.append("g")
 
 // Load data from hours-of-tv-watched.csv
 d3.csv("data.csv").then(function(stateData) {
-
-  // Print the tvData
-  console.log(stateData);
-
+  
   stateData.forEach(function(data) {
     data.id = +data.id;
-  });
-
-  stateData.forEach(function(data) {
     data.poverty = +data.poverty;
-  });
-
-  stateData.forEach(function(data) {
     data.povertyMoe = +data.povertyMoe;
-  });
+    data.age = +data.age;
+    data.ageMoe = +data.ageMoe;
+    data.income = +data.income;
+    data.incomeMoe = +data.incomeMoe;
+    data.healthcare = +data.healthcare;
+    data.healthcareLow = +data.healthcareLow;
+    data.healthcareHigh = +data.healthcareHigh;
+    data.obesity = +data.obesity;
+    data.obesityLow = +data.obesityLow;
+    data.obesityHigh = data.obesityHigh;
+    data.smokes = data.smokes;
+    data.smokesLow = data.smokesLow;
+    data.smokesHigh = data.smokesHigh;
+  
+    var xScale = d3.scaleLinear()
+    .domain(d3.extent(stateData, d => d.age))
+    .range([0, chartWidth]);
 
 
+     console.log(xScale(37))
+
+    var yScale = d3.scaleLinear()
+    .domain([6,d3.max(stateData, d => d.smokes)])
+    .range([chartHeight, 0]);
+
+    console.log(yScale(37))
+
+
+  
+  const xAxis = d3.axisBottom(xScale);
+  const yAxis = d3.axisLeft(yScale);
+
+
+
+  chartGroup.append("g").attr("transform", `translate(0, ${chartHeight})`).call(xAxis);
+  chartGroup.append("g").call(yAxis);
+
+
+chartGroup.selectAll("circle")
+.data(stateData)
+.enter()
+.append("circle")
+.attr("cx", d=>xScale(d.age))
+.attr("cy", d=>yScale(d.smokes))
+.attr("r", "10")
+.attr("opacity", 0.75);
+
+})
 });
+
+
+
