@@ -1,6 +1,6 @@
 // Define SVG area dimensions
 var svgWidth = 960;
-var svgHeight = 660;
+var svgHeight = 550;
 
 // Define the chart's margins as an object
 var chartMargin = {
@@ -90,6 +90,15 @@ chartGroup.append("g")
 .attr("font-size", "12px")
 .attr("font-family", "sans-serif")
 .text(d=>d.abbr);
+
+
+
+chartGroup.append("text")
+.attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 13})`)
+.attr("text-anchor", "middle")
+.text("Median Age");
+
+
 
 });
 
