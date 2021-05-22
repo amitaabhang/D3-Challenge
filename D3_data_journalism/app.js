@@ -16,7 +16,7 @@ var chartHeight = svgHeight - chartMargin.top - chartMargin.bottom;
 
 // Select body, append SVG area to it, and set the dimensions
 var svg = d3
-  .select("body")
+  .select("#scatter")
   .append("svg")
   .attr("height", svgHeight)
   .attr("width", svgWidth);
@@ -42,24 +42,22 @@ d3.csv("data.csv").then(function(stateData) {
     data.healthcareHigh = +data.healthcareHigh;
     data.obesity = +data.obesity;
     data.obesityLow = +data.obesityLow;
-    data.obesityHigh = data.obesityHigh;
-    data.smokes = data.smokes;
-    data.smokesLow = data.smokesLow;
-    data.smokesHigh = data.smokesHigh;
-  
-    var xScale = d3.scaleLinear()
+    data.obesityHigh = +data.obesityHigh;
+    data.smokes = +data.smokes;
+    data.smokesLow = +data.smokesLow;
+    data.smokesHigh = +data.smokesHigh;
+  });
+
+
+
+    const xScale = d3.scaleLinear()
     .domain(d3.extent(stateData, d => d.age))
     .range([0, chartWidth]);
 
 
-     console.log(xScale(37))
-
-    var yScale = d3.scaleLinear()
+    const yScale = d3.scaleLinear()
     .domain([6,d3.max(stateData, d => d.smokes)])
     .range([chartHeight, 0]);
-
-    console.log(yScale(37))
-
 
   
   const xAxis = d3.axisBottom(xScale);
@@ -71,6 +69,7 @@ d3.csv("data.csv").then(function(stateData) {
   chartGroup.append("g").call(yAxis);
 
 
+
 chartGroup.selectAll("circle")
 .data(stateData)
 .enter()
@@ -78,9 +77,20 @@ chartGroup.selectAll("circle")
 .attr("cx", d=>xScale(d.age))
 .attr("cy", d=>yScale(d.smokes))
 .attr("r", "10")
-.attr("opacity", 0.75);
+.classed("stateCircle", true);
 
-})
+chartGroup.append("g")
+.selectAll('text')
+.data(stateData)
+.enter()
+.append("text")
+.attr("x", d=>xScale(d.age))
+.attr("y", d=>yScale(d.smokes))
+.attr("stroke", "teal")
+.attr("font-size", "12px")
+.attr("font-family", "sans-serif")
+.text(d=>d.abbr);
+
 });
 
 
