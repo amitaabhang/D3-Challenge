@@ -91,12 +91,25 @@ chartGroup.append("g")
 .attr("font-family", "sans-serif")
 .text(d=>d.abbr);
 
+chartGroup.append("text")
+.attr("transform", `translate(${chartWidth / 2}, ${chartHeight+25})`)
+.attr("text-anchor", "middle")
+.text("Age")
+.attr("font-size", "16px")
+.attr("fill", "black")
+.style("font-weight", "bold");
 
 
 chartGroup.append("text")
-.attr("transform", `translate(${chartWidth / 2}, ${chartHeight + margin.top + 13})`)
+.attr("y", 0 - ((chartMargin.left / 2) + 2))
+.attr("x", 0 - (chartHeight / 2))
 .attr("text-anchor", "middle")
-.text("Median Age");
+.text("Smoker(%)")
+.attr("font-size", "16px")
+.attr("fill", "black")
+.style("font-weight", "bold")
+.attr("transform", "rotate(-90)");
+       
 
 
 
