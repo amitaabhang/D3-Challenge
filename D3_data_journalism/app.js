@@ -53,13 +53,13 @@ d3.csv("data.csv").then(function(stateData) {
 
 
    //set the x scale 
-    const xScale = d3.scaleLinear()
+    const xScale = d3.scaleLinear() 
     .domain(d3.extent(stateData, d => d.age))
     .range([0, chartWidth]);
 
 //set the y sclae
     const yScale = d3.scaleLinear()
-    .domain([6,d3.max(stateData, d => d.smokes)])
+    .domain([4,d3.max(stateData, d => d.smokes)])
     .range([chartHeight, 0]);
 
   
@@ -84,9 +84,7 @@ chartGroup.selectAll("circle")
 .attr("cy",function(d, i) {
   return yScale(d.smokes);
 })
-//.attr("cx", d=>xScale(d.age))
-//.attr("cy", d=>yScale(d.smokes))
-.attr("r", "10")
+.attr("r", "20")
 .classed("stateCircle", true);
 
 chartGroup.append("g")
@@ -94,9 +92,14 @@ chartGroup.append("g")
 .data(stateData)
 .enter()
 .append("text")
-.attr("x", d=>xScale(d.age))
-.attr("y", d=>yScale(d.smokes))
-.attr("stroke", "teal")
+.attr("x",function(d, i) {
+  return xScale(d.age);
+})
+.attr("y",function(d, i) {
+  return yScale(d.smokes);
+})
+.attr("stroke", "white")
+.attr("text-anchor", "middle")
 .attr("font-size", "12px")
 .attr("font-family", "sans-serif")
 .text(d=>d.abbr);
@@ -104,7 +107,7 @@ chartGroup.append("g")
 chartGroup.append("text")
 .attr("transform", `translate(${chartWidth / 2}, ${chartHeight+25})`)
 .attr("text-anchor", "middle")
-.text("Age")
+.text("Age(Median)")
 .attr("font-size", "16px")
 .attr("fill", "black")
 .style("font-weight", "bold");
