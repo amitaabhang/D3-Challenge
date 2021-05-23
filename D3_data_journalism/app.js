@@ -26,9 +26,10 @@ var svg = d3
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${chartMargin.left}, ${chartMargin.top})`);
 
-// Load data from hours-of-tv-watched.csv
+// Load data from  data.csv
 d3.csv("data.csv").then(function(stateData) {
   
+  //Convert the string values
   stateData.forEach(function(data) {
     data.id = +data.id;
     data.poverty = +data.poverty;
@@ -46,20 +47,23 @@ d3.csv("data.csv").then(function(stateData) {
     data.smokes = +data.smokes;
     data.smokesLow = +data.smokesLow;
     data.smokesHigh = +data.smokesHigh;
+
+    
   });
 
 
-
+   //set the x scale 
     const xScale = d3.scaleLinear()
     .domain(d3.extent(stateData, d => d.age))
     .range([0, chartWidth]);
 
-
+//set the y sclae
     const yScale = d3.scaleLinear()
     .domain([6,d3.max(stateData, d => d.smokes)])
     .range([chartHeight, 0]);
 
   
+   //set the axis  
   const xAxis = d3.axisBottom(xScale);
   const yAxis = d3.axisLeft(yScale);
 
@@ -69,13 +73,19 @@ d3.csv("data.csv").then(function(stateData) {
   chartGroup.append("g").call(yAxis);
 
 
-
+//Draw the scatter plot of data
 chartGroup.selectAll("circle")
 .data(stateData)
 .enter()
 .append("circle")
-.attr("cx", d=>xScale(d.age))
-.attr("cy", d=>yScale(d.smokes))
+.attr("cx",function(d, i) {
+  return xScale(d.age);
+})
+.attr("cy",function(d, i) {
+  return yScale(d.smokes);
+})
+//.attr("cx", d=>xScale(d.age))
+//.attr("cy", d=>yScale(d.smokes))
 .attr("r", "10")
 .classed("stateCircle", true);
 
