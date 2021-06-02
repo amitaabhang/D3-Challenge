@@ -84,7 +84,7 @@ chartGroup.selectAll("circle")
 .attr("cy",function(d, i) {
   return yScale(d.smokes);
 })
-.attr("r", "20")
+.attr("r", "15")
 .classed("stateCircle", true);
 
 chartGroup.append("g")
@@ -94,6 +94,7 @@ chartGroup.append("g")
 .append("text")
 .attr("x",function(d, i) {
   return xScale(d.age);
+  
 })
 .attr("y",function(d, i) {
   return yScale(d.smokes);
